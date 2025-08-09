@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gilmore Girls Quiz</title>
+<style>
+body {
+background-color: lightblue;
+font-family: Helvetica;
+}
+
+#main {
+width: 80%;
+max-width: 950px;
+border: 1px gray solid;
+margin: auto;
+padding: 10px;
+background-color: white;
+border-radius: 10px;
+}
+
+#header {
+margin-top: 0;
+border: 2px solid black;
+padding: 5px;
+height: 250px;
+background: beige;
+background-image: url("code.jpg");
+color: white;
+}
+
+#gilmoreImage {
+    max-width: 250px;
+    display: block;
+    margin: 10px auto;
+    border-radius: 8px;
+}
+</style>
+</head>
+<body>
+<div id="main">
+<div id="header">
+<h1>Gilmore Girls Quiz</h1>
+</div>
+<h1>Which Gilmore Girl Are You?</h1>
+<p>
+Have you ever wonder which Gilmore Girl matches your vibe? Whether you’re a coffee-loving Lorelai, a bookish Rory, a classy Emily, or a bold Paris, this quiz will reveal your Stars Hollow soulmate! Answer these fun questions and discover which Gilmore Girl you truly are.
+</p>
+
+
+<form id="form1">
+
+<p>What is your favorite season?</p>
+<label><input type="radio" name="season" value="Lorelai"> Winter</label>
+<label><input type="radio" name="season" value="Rory"> Spring</label>
+<label><input type="radio" name="season" value="Emily"> Summer</label>
+<label><input type="radio" name="season" value="Paris"> Fall</label>
+
+<p>What is your favorite style of music?</p>
+<label><input type="radio" name="music" value="Lorelai"> Rock</label>
+<label><input type="radio" name="music" value="Rory"> Classical</label>
+<label><input type="radio" name="music" value="Emily"> Country</label>
+<label><input type="radio" name="music" value="Paris"> Pop</label>
+
+<p>Choose a sandwich?</p>
+<label><input type="radio" name="sandwich" value="Lorelai"> BLT</label>
+<label><input type="radio" name="sandwich" value="Rory"> Turkey Club</label>
+<label><input type="radio" name="sandwich" value="Emily"> Hamburger</label>
+<label><input type="radio" name="sandwich" value="Paris"> Cheesesteak</label>
+
+<p>Would you rather?</p>
+<label><input type="radio" name="rather" value="Lorelai"> Lay on the beach</label>
+<label><input type="radio" name="rather" value="Rory"> Visit a museum</label>
+<label><input type="radio" name="rather" value="Emily"> Go for a hike</label>
+<label><input type="radio" name="rather" value="Paris"> Ride a bike</label>
+
+<p>What is your age?</p>
+<label><input type="radio" name="age" value="Rory">&lt; 18</label>
+<label><input type="radio" name="age" value="Paris">18-32</label>
+<label><input type="radio" name="age" value="Lorelai">33-45</label>
+<label><input type="radio" name="age" value="Emily">46+</label>
+
+<p><button type="submit" value="Submit">Submit</button></p>
+
+</form>
+
+
+<ul id="results"></ul>
+<p id="gilmoreResult"></p>
+<img id="gilmoreImage" src="" alt="" style="display:none;" />
+
+</div>
+
+<script>
+document.getElementById("form1").onsubmit=function() {
+    function getRadioValue(name) {
+        const radios = document.getElementsByName(name);
+        for (let i = 0; i < radios.length; i++) {
+            if (radios[i].checked) return radios[i].value;
+        }
+        return "";
+    }
+    function getRadioLabel(name) {
+        const radios = document.getElementsByName(name);
+        for (let i = 0; i < radios.length; i++) {
+            if (radios[i].checked) return radios[i].parentNode.textContent.trim();
+        }
+        return "Not selected";
+    }
+
+    const answers = [
+        getRadioValue("season"),
+        getRadioValue("music"),
+        getRadioValue("sandwich"),
+        getRadioValue("rather"),
+        getRadioValue("age")
+    ];
+
+    
+
+    // Count Gilmore Girl choices
+    const counts = { Lorelai: 0, Rory: 0, Emily: 0, Paris: 0 };
+    answers.forEach(function(ans) {
+        if (counts.hasOwnProperty(ans)) counts[ans]++;
+    });
+
+    // Find the Gilmore Girl with the highest count
+    let max = 0, result = "Not enough answers!";
+    for (const girl in counts) {
+        if (counts[girl] > max) {
+            max = counts[girl];
+            result = girl;
+        }
+    }
+
+    // Add descriptions for each Gilmore Girl
+    const descriptions = {
+        Lorelai: "You are sometimes flaky, but mostly responsible.",
+        Rory: "You are smart and reliable.",
+        Paris: "You are headstrong and ambitious.",
+        Emily: "You are proper and have high expectations."
+    };
+
+    let resultHtml = "You are: <b>" + result + "</b>!";
+    if (descriptions[result]) {
+        resultHtml += "<br><span>" + descriptions[result] + "</span>";
+    }
+
+    document.getElementById("gilmoreResult").innerHTML = resultHtml;
+
+    // Show image for result
+    const images = {
+        Lorelai: "lorelai.jpg",
+        Rory: "rory.jpg",
+        Emily: "emily.jpg",
+        Paris: "paris.jpg"
+    };
+    const imgElem = document.getElementById("gilmoreImage");
+    if (images[result]) {
+        imgElem.src = images[result];
+        imgElem.alt = result;
+        imgElem.style.display = "block";
+    } else {
+        imgElem.style.display = "none";
+    }
+
+    return false;
+}
+</script>
+</body>
+</html>
+
